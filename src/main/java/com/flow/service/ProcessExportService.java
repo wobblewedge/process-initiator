@@ -27,7 +27,7 @@ public class ProcessExportService {
 	
 	public static void main(String[] args) throws SAXException, IOException {
 	 Document doc = readProcess();
-	System.out.println (doc.getElementById("process").getNodeName() + " " + doc.getDocumentElement().getNodeValue());
+	System.out.println (doc.getDocumentElement().getNodeName() + " " + doc.getDocumentElement().getNodeValue());
 		
 	}
 	static Document readProcess() throws SAXException, IOException{
@@ -41,7 +41,7 @@ public class ProcessExportService {
 	doc = builder.parse(xmlProcess);
 	doc.getDocumentElement().normalize();
 	//now working with elements in the xml tree
-	NodeList nodeList = doc.getElementsByTagName("process");
+	NodeList nodeList = doc.getDocumentElement().getChildNodes();
 	for(int i=0; i<nodeList.getLength(); i++) {
 		System.out.println(i);
 	}
