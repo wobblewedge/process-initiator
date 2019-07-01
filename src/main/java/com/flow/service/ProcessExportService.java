@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
@@ -25,7 +27,7 @@ public class ProcessExportService {
 	
 	public static void main(String[] args) throws SAXException, IOException {
 	 Document doc = readProcess();
-	System.out.print(doc.getAttributes());
+	System.out.println (doc.getElementById("process").getNodeName() + " " + doc.getDocumentElement().getNodeValue());
 		
 	}
 	static Document readProcess() throws SAXException, IOException{
@@ -34,8 +36,16 @@ public class ProcessExportService {
 	System.out.println(xmlProcess.canRead());
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	try {
+	//use java xml parsers to digest file into xml format
 	DocumentBuilder builder = factory.newDocumentBuilder();
 	doc = builder.parse(xmlProcess);
+	doc.getDocumentElement().normalize();
+	//now working with elements in the xml tree
+	NodeList nodeList = doc.getElementsByTagName("process");
+	for(int i=0; i<nodeList.getLength(); i++) {
+		System.out.println(i);
+	}
+	
 	} catch(ParserConfigurationException pce) {
 		System.out.println("Cannot parse file with this shit goin on.");
 	}
