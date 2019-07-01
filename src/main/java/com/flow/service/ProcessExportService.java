@@ -43,7 +43,8 @@ public class ProcessExportService {
 	//now working with elements in the xml tree
 	NodeList nodeList = doc.getDocumentElement().getChildNodes();
 	for(int i=0; i<nodeList.getLength(); i++) {
-		System.out.println(i);
+		Node nNode = nodeList.item(i);
+		System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	}
 	
 	} catch(ParserConfigurationException pce) {
