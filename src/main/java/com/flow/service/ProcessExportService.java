@@ -27,52 +27,6 @@ public class ProcessExportService {
 	 * id ) { return new Rating("ID", 3); }
 	 */
 
-	public static void main(String[] args) throws SAXException, IOException {
-		Document doc = readProcess("src/main/resources/processes/vacation-request.bpmn20.xml");
-	    writeProcess(doc);
-	}
-
-	public static Document readProcess(String path) throws SAXException, IOException {
-		Document doc = null;
-		File xmlProcess = new File(path);
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			doc = builder.parse(xmlProcess);
-			doc.getDocumentElement().normalize();
-		} catch (ParserConfigurationException pce) {
-			System.out.println("Cannot parse file with this configuration on.");
-		}
-		return doc;
-	}
-	
-	private static void writeProcess(Document document){
-		
-		NodeList nodeList = document.getChildNodes();
-		for(int i=0; i<nodeList.getLength(); i++) {
-			Node nNode = nodeList.item(i);
-			if (nNode.getNodeType() != 0) {
-
-				// get node name and value
-				System.out.println("\nNode Name =" + nNode.getNodeName() + " [OPEN]");
-				System.out.println("Node Value =" + nNode.getTextContent());
-
-				if (nNode.hasAttributes()) {
-					// get attributes names and values
-					NamedNodeMap nodeMap = nNode.getAttributes();
-
-					for (int k = 0; i < nodeMap.getLength(); i++) {
-						Node node = nodeMap.item(i);
-						System.out.println("attr name : " + node.getNodeName());
-						System.out.println("attr value : " + node.getNodeValue());
-					}
-				}
-			if(nNode.hasChildNodes()) {
-				System.out.println("Node Name:" + nNode.getNodeName() +" [close]");
-			    }		
-			}
-		}
-	}
 	
 
 	@RequestMapping("/{name}")
