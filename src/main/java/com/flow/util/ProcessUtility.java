@@ -16,11 +16,11 @@ import org.xml.sax.SAXException;
 public class ProcessUtility {
 
 	public static void main(String[] args) throws SAXException, IOException {
-		Document doc = readProcess("src/main/resources/processes/vacation-request.bpmn20.xml");
-		writeProcess(doc);
+		//Document doc = readProcess("src/main/resources/processes/vacation-request.bpmn20.xml");
+		//writeProcess(doc);
 	}
 
-	public static Document readProcess(String path) throws SAXException, IOException {
+	public Document readProcess(String path) throws SAXException, IOException {
 		Document doc = null;
 		File xmlProcess = new File(path);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
