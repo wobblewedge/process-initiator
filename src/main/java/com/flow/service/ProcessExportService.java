@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -28,7 +29,7 @@ public class ProcessExportService {
 
 	public static void main(String[] args) throws SAXException, IOException {
 		Document doc = readProcess("src/main/resources/processes/vacation-request.bpmn20.xml");
-		NodeList nodeList = writeProcess(doc);
+	    writeProcess(doc);
 	}
 
 	public static Document readProcess(String path) throws SAXException, IOException {
@@ -36,31 +37,41 @@ public class ProcessExportService {
 		File xmlProcess = new File(path);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
-			// use java xml parsers to digest file into xml format
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			doc = builder.parse(xmlProcess);
 			doc.getDocumentElement().normalize();
-			// now working with elements in the xml tree
 		} catch (ParserConfigurationException pce) {
 			System.out.println("Cannot parse file with this configuration on.");
 		}
 		return doc;
 	}
 	
-	private static NodeList writeProcess(Document document){
+	private static void writeProcess(Document document){
 		
-		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		NodeList nodeList = document.getChildNodes();
 		for(int i=0; i<nodeList.getLength(); i++) {
 			Node nNode = nodeList.item(i);
-			System.out.println("Node Name:" + nNode.getNodeName());
-			while(nNode.hasChildNodes()) {
-				NodeList subNodes = nNode.getChildNodes();
-				System.out.println(subNodes.item(i).getNodeValue().toString());
+			if (nNode.getNodeType() != 0) {
+
+				// get node name and value
+				System.out.println("\nNode Name =" + nNode.getNodeName() + " [OPEN]");
+				System.out.println("Node Value =" + nNode.getTextContent());
+
+				if (nNode.hasAttributes()) {
+					// get attributes names and values
+					NamedNodeMap nodeMap = nNode.getAttributes();
+
+					for (int k = 0; i < nodeMap.getLength(); i++) {
+						Node node = nodeMap.item(i);
+						System.out.println("attr name : " + node.getNodeName());
+						System.out.println("attr value : " + node.getNodeValue());
+					}
+				}
+			if(nNode.hasChildNodes()) {
+				System.out.println("Node Name:" + nNode.getNodeName() +" [close]");
+			    }		
 			}
 		}
-		
-		return nodeList;
-		
 	}
 	
 
