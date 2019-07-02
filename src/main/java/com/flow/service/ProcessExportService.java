@@ -26,14 +26,15 @@ public class ProcessExportService {
 */
 	
 	public static void main(String[] args) throws SAXException, IOException {
-	 Document doc = readProcess();
+	 Document doc = readProcess("src/main/resources/processes/vacation-request.bpmn20.xml");
+	 
+	 
 	System.out.println (doc.getDocumentElement().getNodeName() + " " + doc.getDocumentElement().getNodeValue());
 		
 	}
-	static Document readProcess() throws SAXException, IOException{
+	static Document readProcess(String path) throws SAXException, IOException{
 	Document doc = null;
-	File xmlProcess = new File("src/main/resources/processes/vacation-request.bpmn20.xml");
-	System.out.println(xmlProcess.canRead());
+	File xmlProcess = new File(path);
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	try {
 	//use java xml parsers to digest file into xml format
@@ -41,14 +42,8 @@ public class ProcessExportService {
 	doc = builder.parse(xmlProcess);
 	doc.getDocumentElement().normalize();
 	//now working with elements in the xml tree
-	NodeList nodeList = doc.getDocumentElement().getChildNodes();
-	for(int i=0; i<nodeList.getLength(); i++) {
-		Node nNode = nodeList.item(i);
-		System.out.println("\nCurrent Element :" + nNode.getNodeName());
-	}
-	
 	} catch(ParserConfigurationException pce) {
-		System.out.println("Cannot parse file with this shit goin on.");
+		System.out.println("Cannot parse file with this configuration on.");
 	}
 	return doc;
 	}
